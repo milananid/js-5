@@ -107,18 +107,23 @@ textarea {
 
 
 .hide-scroll {
-  width: 100%;
+  width: 70%;
   text-align: center;
   padding-top: 20%;
   padding-bottom:20%;
   background: red;
   color: #fff;
   font-size: 60px;
-  margin: 50px 0;
   opacity: 0;
-  transition: opacity 500ms;
+  transform: translateY(50%);
+  transition: all 500ms;
+  margin-left: 15%;
+  margin-bottom:50px;
 }
-
+.hide-scroll.show {
+	opacity:1;
+  transform: translateY(0%);
+}
 
 
 

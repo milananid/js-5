@@ -1,20 +1,39 @@
 $(function() {
 
   var elems = $('.hide-scroll');
-  var config = {
-    rootMargin: '0px 0px 0px 0px', // top right bottom left
-    threshold: 0.1 //frequenza di aggiormento
-  };
 
+  var threshold = [];
+  var increment = 0.01;
+  for (let i=0; i<1; i+=increment) {
+		threshold.push(i);
+	}
+ 
+  var config = {
+  	root: null,
+    rootMargin: '0px', // top right bottom left
+    threshold: threshold 
+  };
+  //https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#The_root_element_and_root_margin
+
+	
+function showBox(t, r, b, l){
+	$('body').append('<div id="box" style="width:'+($(window).width()-r-l)+'px;height:'+($(window).height()-t-b)+'px;left:'+l+'px;top:'+t+'px;background:rgba(0,0,0,.5);position:fixed;z-index:10000;"></div>');
+}	
 
   function onIntersection(els) {
     els.forEach(function(el){
       if (el.intersectionRatio > 0) {
         observer.unobserve(el.target);
         //fai qualche cosa su el.target
-        //$(el.target).find('span').html(el.intersectionRatio)
+        ratio = Math.round(el.intersectionRatio * 100);
+        $(el.target).find('span').html(ratio)
         //console.log(el);
-        $(el.target).css({opacity : Math.round(el.intersectionRatio)});
+        if(ratio >= 20){        	        	
+        	 //l'elemento è entrato
+        	 $(el.target).addClass('show');
+        }else{
+        	 //l'elemento è uscito
+        }
       }
     });
   }
@@ -23,6 +42,8 @@ $(function() {
     //FALLBACK
     elems.css({opacity : 1});
   } else {
+  
+   	//showBox(400, 100, 100, 100);
     var observer = new IntersectionObserver(onIntersection, config);
     elems.each(function(index, elem){
       observer.observe(elem);
@@ -35,5 +56,10 @@ $(function() {
       }
     });
   }
+  
+  
+  
+	
+
 
 });
